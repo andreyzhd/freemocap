@@ -29,6 +29,17 @@ const PRESET_RESOLUTIONS = [
     {width: 640, height: 480, label: '640 × 480'},
     {width: 1280, height: 720, label: '1280 × 720'},
     {width: 1920, height: 1080, label: '1920 × 1080'},
+    {width: 2560, height: 1440, label: '2560 × 1440'},
+    {width: 3840, height: 2160, label: '3840 × 2160'},
+];
+
+const PRESET_FRAMERATES = [
+    {value: -1, label: 'Auto'},
+    {value: 30, label: '30 fps'},
+    {value: 60, label: '60 fps'},
+    {value: 90, label: '90 fps'},
+    {value: 120, label: '120 fps'},
+    {value: 240, label: '240 fps'},
 ];
 
 const EXPOSURE_MIN = -13;
@@ -39,6 +50,14 @@ const resolutionLabel = (config: CameraConfig): string => {
         p => p.width === config.resolution.width && p.height === config.resolution.height,
     );
     return preset?.label ?? `${config.resolution.width} × ${config.resolution.height}`;
+};
+
+const framerateLabel = (config: CameraConfig): string => {
+    if (config.framerate === undefined || config.framerate === null || config.framerate <= 0) {
+        return 'Auto';
+    }
+    const preset = PRESET_FRAMERATES.find(p => p.value === Math.round(config.framerate));
+    return preset?.label ?? `${config.framerate} fps`;
 };
 
 export const CameraSettingsModal: React.FC<CameraSettingsModalProps> = ({camera, initialPos, onClose}) => {
@@ -120,6 +139,18 @@ export const CameraSettingsModal: React.FC<CameraSettingsModalProps> = ({camera,
                         onChange={label => {
                             const preset = PRESET_RESOLUTIONS.find(p => p.label === label);
                             if (preset) handleConfigChange({resolution: {width: preset.width, height: preset.height}});
+                        }}
+                    />
+                </Row>
+
+                {/* Framerate */}
+                <Row label="Framerate">
+                    <NameDropdownSelector
+                        options={PRESET_FRAMERATES.map(p => p.label)}
+                        initialValue={framerateLabel(config)}
+                        onChange={label => {
+                            const preset = PRESET_FRAMERATES.find(p => p.label === label);
+                            if (preset) handleConfigChange({framerate: preset.value});
                         }}
                     />
                 </Row>

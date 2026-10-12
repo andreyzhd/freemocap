@@ -25,8 +25,8 @@ const getConfigSummary = (config: any): string[] => {
     summary.push(`${config.resolution.width}×${config.resolution.height}`);
   }
 
-  if (config.framerate) {
-    summary.push(`${parseFloat(config.framerate).toFixed(2)}fps`);
+  if (config.framerate !== undefined && config.framerate !== null) {
+    summary.push(config.framerate <= 0 ? "Auto" : `${Math.round(config.framerate)}fps`);
   }
 
   if (config.exposure !== undefined && config.exposure_mode === "MANUAL") {

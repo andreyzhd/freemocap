@@ -11,6 +11,8 @@ const PRESET_RESOLUTIONS = [
     { width: 640, height: 480, label: "640 x 480" },
     { width: 1280, height: 720, label: "1280 x 720" },
     { width: 1920, height: 1080, label: "1920 x 1080" },
+    { width: 2560, height: 1440, label: "2560 x 1440" },
+    { width: 3840, height: 2160, label: "3840 x 2160" },
 ];
 
 const RESOLUTION_CONSTRAINTS = {
